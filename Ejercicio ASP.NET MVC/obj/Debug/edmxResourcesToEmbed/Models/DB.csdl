@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="pricing_testModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="categoria">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="producto" Relationship="Self.id_categoria__producto_fk" FromRole="categoria" ToRole="producto" />
+  </EntityType>
+  <EntityType Name="ciudad">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="cliente" Relationship="Self.id_ciudad_cliente_fk" FromRole="ciudad" ToRole="cliente" />
+    <NavigationProperty Name="proveedor" Relationship="Self.id_ciudad_proveedor_fk" FromRole="ciudad" ToRole="proveedor" />
+  </EntityType>
+  <EntityType Name="cliente">
+    <Key>
+      <PropertyRef Name="rut" />
+    </Key>
+    <Property Name="rut" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="id_comuna" Type="Int32" Nullable="false" />
+    <Property Name="id_ciudad" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ciudad" Relationship="Self.id_ciudad_cliente_fk" FromRole="cliente" ToRole="ciudad" />
+    <NavigationProperty Name="comuna" Relationship="Self.id_comuna_cliente_fk" FromRole="cliente" ToRole="comuna" />
+    <NavigationProperty Name="telefono_contacto" Relationship="Self.rut_cliente_telefono_contacto_fk" FromRole="cliente" ToRole="telefono_contacto" />
+    <NavigationProperty Name="venta" Relationship="Self.rut_cliente_venta_fk" FromRole="cliente" ToRole="venta" />
+  </EntityType>
+  <EntityType Name="comuna">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="cliente" Relationship="Self.id_comuna_cliente_fk" FromRole="comuna" ToRole="cliente" />
+    <NavigationProperty Name="proveedor" Relationship="Self.id_comuna_proveedor_fk" FromRole="comuna" ToRole="proveedor" />
+  </EntityType>
+  <EntityType Name="producto">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="precio_actual" Type="Int32" Nullable="false" />
+    <Property Name="stock" Type="Int32" Nullable="false" />
+    <Property Name="rut_proveedor" Type="Int32" Nullable="false" />
+    <Property Name="id_categoria" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="categoria" Relationship="Self.id_categoria__producto_fk" FromRole="producto" ToRole="categoria" />
+    <NavigationProperty Name="venta_detalle" Relationship="Self.id_producto_venta_detalle_fk" FromRole="producto" ToRole="venta_detalle" />
+    <NavigationProperty Name="proveedor" Relationship="Self.rut_proveedor__producto_fk" FromRole="producto" ToRole="proveedor" />
+  </EntityType>
+  <EntityType Name="proveedor">
+    <Key>
+      <PropertyRef Name="rut" />
+    </Key>
+    <Property Name="rut" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="telefono" Type="Int64" Nullable="false" />
+    <Property Name="pagina_web" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="id_comuna" Type="Int32" Nullable="false" />
+    <Property Name="id_ciudad" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ciudad" Relationship="Self.id_ciudad_proveedor_fk" FromRole="proveedor" ToRole="ciudad" />
+    <NavigationProperty Name="comuna" Relationship="Self.id_comuna_proveedor_fk" FromRole="proveedor" ToRole="comuna" />
+    <NavigationProperty Name="producto" Relationship="Self.rut_proveedor__producto_fk" FromRole="proveedor" ToRole="producto" />
+  </EntityType>
+  <EntityType Name="telefono_contacto">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="numero" Type="Int64" Nullable="false" />
+    <Property Name="rut_cliente" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="cliente" Relationship="Self.rut_cliente_telefono_contacto_fk" FromRole="telefono_contacto" ToRole="cliente" />
+  </EntityType>
+  <EntityType Name="venta">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="rut_cliente" Type="Int32" Nullable="false" />
+    <Property Name="descuento" Type="Int32" Nullable="false" />
+    <Property Name="monto_final" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="cliente" Relationship="Self.rut_cliente_venta_fk" FromRole="venta" ToRole="cliente" />
+    <NavigationProperty Name="venta_detalle" Relationship="Self.id_venta_venta_detalle_fk" FromRole="venta" ToRole="venta_detalle" />
+  </EntityType>
+  <EntityType Name="venta_detalle">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_venta" Type="Int32" Nullable="false" />
+    <Property Name="id_producto" Type="Int32" Nullable="false" />
+    <Property Name="cantidad_vendida_producto" Type="Int32" Nullable="false" />
+    <Property Name="monto_total_producto" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="producto" Relationship="Self.id_producto_venta_detalle_fk" FromRole="venta_detalle" ToRole="producto" />
+    <NavigationProperty Name="venta" Relationship="Self.id_venta_venta_detalle_fk" FromRole="venta_detalle" ToRole="venta" />
+  </EntityType>
+  <Association Name="id_categoria__producto_fk">
+    <End Role="categoria" Type="Self.categoria" Multiplicity="1" />
+    <End Role="producto" Type="Self.producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="categoria">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="producto">
+        <PropertyRef Name="id_categoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="id_ciudad_cliente_fk">
+    <End Role="ciudad" Type="Self.ciudad" Multiplicity="1" />
+    <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ciudad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cliente">
+        <PropertyRef Name="id_ciudad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="id_ciudad_proveedor_fk">
+    <End Role="ciudad" Type="Self.ciudad" Multiplicity="1" />
+    <End Role="proveedor" Type="Self.proveedor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ciudad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="proveedor">
+        <PropertyRef Name="id_ciudad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="id_comuna_cliente_fk">
+    <End Role="comuna" Type="Self.comuna" Multiplicity="1" />
+    <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="comuna">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cliente">
+        <PropertyRef Name="id_comuna" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="rut_cliente_telefono_contacto_fk">
+    <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+    <End Role="telefono_contacto" Type="Self.telefono_contacto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cliente">
+        <PropertyRef Name="rut" />
+      </Principal>
+      <Dependent Role="telefono_contacto">
+        <PropertyRef Name="rut_cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="rut_cliente_venta_fk">
+    <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+    <End Role="venta" Type="Self.venta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cliente">
+        <PropertyRef Name="rut" />
+      </Principal>
+      <Dependent Role="venta">
+        <PropertyRef Name="rut_cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="id_comuna_proveedor_fk">
+    <End Role="comuna" Type="Self.comuna" Multiplicity="1" />
+    <End Role="proveedor" Type="Self.proveedor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="comuna">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="proveedor">
+        <PropertyRef Name="id_comuna" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="id_producto_venta_detalle_fk">
+    <End Role="producto" Type="Self.producto" Multiplicity="1" />
+    <End Role="venta_detalle" Type="Self.venta_detalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="producto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="venta_detalle">
+        <PropertyRef Name="id_producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="rut_proveedor__producto_fk">
+    <End Role="proveedor" Type="Self.proveedor" Multiplicity="1" />
+    <End Role="producto" Type="Self.producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="proveedor">
+        <PropertyRef Name="rut" />
+      </Principal>
+      <Dependent Role="producto">
+        <PropertyRef Name="rut_proveedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="id_venta_venta_detalle_fk">
+    <End Role="venta" Type="Self.venta" Multiplicity="1" />
+    <End Role="venta_detalle" Type="Self.venta_detalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="venta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="venta_detalle">
+        <PropertyRef Name="id_venta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="pricing_testEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="categoria" EntityType="Self.categoria" />
+    <EntitySet Name="ciudad" EntityType="Self.ciudad" />
+    <EntitySet Name="cliente" EntityType="Self.cliente" />
+    <EntitySet Name="comuna" EntityType="Self.comuna" />
+    <EntitySet Name="producto" EntityType="Self.producto" />
+    <EntitySet Name="proveedor" EntityType="Self.proveedor" />
+    <EntitySet Name="telefono_contacto" EntityType="Self.telefono_contacto" />
+    <EntitySet Name="venta" EntityType="Self.venta" />
+    <EntitySet Name="venta_detalle" EntityType="Self.venta_detalle" />
+    <AssociationSet Name="id_categoria__producto_fk" Association="Self.id_categoria__producto_fk">
+      <End Role="categoria" EntitySet="categoria" />
+      <End Role="producto" EntitySet="producto" />
+    </AssociationSet>
+    <AssociationSet Name="id_ciudad_cliente_fk" Association="Self.id_ciudad_cliente_fk">
+      <End Role="ciudad" EntitySet="ciudad" />
+      <End Role="cliente" EntitySet="cliente" />
+    </AssociationSet>
+    <AssociationSet Name="id_ciudad_proveedor_fk" Association="Self.id_ciudad_proveedor_fk">
+      <End Role="ciudad" EntitySet="ciudad" />
+      <End Role="proveedor" EntitySet="proveedor" />
+    </AssociationSet>
+    <AssociationSet Name="id_comuna_cliente_fk" Association="Self.id_comuna_cliente_fk">
+      <End Role="comuna" EntitySet="comuna" />
+      <End Role="cliente" EntitySet="cliente" />
+    </AssociationSet>
+    <AssociationSet Name="rut_cliente_telefono_contacto_fk" Association="Self.rut_cliente_telefono_contacto_fk">
+      <End Role="cliente" EntitySet="cliente" />
+      <End Role="telefono_contacto" EntitySet="telefono_contacto" />
+    </AssociationSet>
+    <AssociationSet Name="rut_cliente_venta_fk" Association="Self.rut_cliente_venta_fk">
+      <End Role="cliente" EntitySet="cliente" />
+      <End Role="venta" EntitySet="venta" />
+    </AssociationSet>
+    <AssociationSet Name="id_comuna_proveedor_fk" Association="Self.id_comuna_proveedor_fk">
+      <End Role="comuna" EntitySet="comuna" />
+      <End Role="proveedor" EntitySet="proveedor" />
+    </AssociationSet>
+    <AssociationSet Name="id_producto_venta_detalle_fk" Association="Self.id_producto_venta_detalle_fk">
+      <End Role="producto" EntitySet="producto" />
+      <End Role="venta_detalle" EntitySet="venta_detalle" />
+    </AssociationSet>
+    <AssociationSet Name="rut_proveedor__producto_fk" Association="Self.rut_proveedor__producto_fk">
+      <End Role="proveedor" EntitySet="proveedor" />
+      <End Role="producto" EntitySet="producto" />
+    </AssociationSet>
+    <AssociationSet Name="id_venta_venta_detalle_fk" Association="Self.id_venta_venta_detalle_fk">
+      <End Role="venta" EntitySet="venta" />
+      <End Role="venta_detalle" EntitySet="venta_detalle" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

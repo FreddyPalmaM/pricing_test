@@ -1,0 +1,121 @@
+GO
+USE master;
+DROP DATABASE pricing_test;
+CREATE DATABASE pricing_test;
+GO
+USE pricing_test;
+
+ALTER TABLE proveedor DROP CONSTRAINT id_comuna_fk;
+ALTER TABLE proveedor DROP CONSTRAINT id_ciudad_fk;
+ALTER TABLE ciudad DROP CONSTRAINT id_ciudad_pk;
+ALTER TABLE comuna DROP CONSTRAINT id_comuna_pk;
+
+DROP TABLE ciudad;
+DROP TABLE comuna;
+DROP TABLE proveedor;
+
+CREATE TABLE ciudad(
+id INT IDENTITY(1,1) NOT NULL,
+nombre VARCHAR(255) NOT NULL,
+CONSTRAINT id_ciudad_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE comuna(
+id INT IDENTITY(1,1) NOT NULL,
+nombre VARCHAR(255) NOT NULL,
+CONSTRAINT id_comuna_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE proveedor (
+rut INT NOT NULL,
+nombre VARCHAR(255) NOT NULL,
+telefono BIGINT NOT NULL,
+pagina_web VARCHAR(500) NOT NULL,
+direccion VARCHAR(255) NOT NULL,
+id_comuna INT NOT NULL,
+id_ciudad INT NOT NULL,
+CONSTRAINT rut_proveedor_pk PRIMARY KEY (rut),
+CONSTRAINT id_comuna_proveedor_fk FOREIGN KEY (id_comuna) REFERENCES comuna(id),
+CONSTRAINT id_ciudad_proveedor_fk FOREIGN KEY (id_ciudad) REFERENCES ciudad(id)
+);
+
+CREATE TABLE cliente(
+rut INT NOT NULL,
+nombre VARCHAR(255) NOT NULL,
+direccion VARCHAR(255) NOT NULL,
+id_comuna INT NOT NULL,
+id_ciudad INT NOT NULL,
+CONSTRAINT rut_cliente_pk PRIMARY KEY (rut),
+CONSTRAINT id_comuna_cliente_fk FOREIGN KEY (id_comuna) REFERENCES comuna(id),
+CONSTRAINT id_ciudad_cliente_fk FOREIGN KEY (id_ciudad) REFERENCES ciudad(id)
+);
+
+CREATE TABLE telefono_contacto(
+id INT IDENTITY(1,1) NOT NULL,
+numero BIGINT NOT NULL,
+rut_cliente INT NOT NULL,
+CONSTRAINT id_telefono_contacto_pk PRIMARY KEY (id),
+CONSTRAINT rut_cliente_telefono_contacto_fk FOREIGN KEY (rut_cliente) REFERENCES cliente(rut)
+);
+
+CREATE TABLE categoria(
+id INT IDENTITY(1,1) NOT NULL,
+nombre VARCHAR(255) NOT NULL,
+descripcion VARCHAR(255) NOT NULL,
+CONSTRAINT id_categoria_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE producto(
+id INT IDENTITY(1,1) NOT NULL,
+nombre VARCHAR(255) NOT NULL,
+precio_actual INT NOT NULL,
+stock INT NOT NULL,
+rut_proveedor INT NOT NULL,
+id_categoria INT NOT NULL,
+CONSTRAINT id_producto_pk PRIMARY KEY (id),
+CONSTRAINT rut_proveedor__producto_fk FOREIGN KEY (rut_proveedor) REFERENCES proveedor(rut),
+CONSTRAINT id_categoria__producto_fk FOREIGN KEY (id_categoria) REFERENCES categoria(id)
+);
+
+CREATE TABLE venta(
+id INT IDENTITY(1,1) NOT NULL,
+fecha DATE NOT NULL,
+rut_cliente INT NOT NULL,
+descuento INT NOT NULL,
+monto_final INT NOT NULL,
+CONSTRAINT id_venta_pk PRIMARY KEY (id),
+CONSTRAINT rut_cliente_venta_fk FOREIGN KEY (rut_cliente) REFERENCES cliente(rut)
+);
+
+CREATE TABLE venta_detalle(
+id INT IDENTITY(1,1) NOT NULL,
+id_venta INT NOT NULL,
+id_producto INT NOT NULL,
+cantidad_vendida_producto INT NOT NULL,
+monto_total_producto INT NOT NULL,
+CONSTRAINT id_venta_detalle_pk PRIMARY KEY (id),
+CONSTRAINT id_venta_venta_detalle_fk FOREIGN KEY (id_venta) REFERENCES venta(id),
+CONSTRAINT id_producto_venta_detalle_fk FOREIGN KEY (id_producto) REFERENCES producto(id)
+);
+
+INSERT INTO ciudad (nombre) values ('Santiago');
+INSERT INTO comuna (nombre) values ('Maipu');
+
+INSERT INTO proveedor (rut, nombre, telefono, pagina_web, direccion, id_comuna, id_ciudad) values (196498931, 'Freddy', 930799532, 'www.pricinprueba.cl','Cuatro poniente 322',1,1);
+INSERT INTO proveedor (rut, nombre, telefono, pagina_web, direccion, id_comuna, id_ciudad) values (195845921, 'Barbara', 930799532, 'www.pricinprueba.cl','Cuatro poniente 322',1,1);
+
+INSERT INTO categoria (nombre, descripcion) values ('Chatarra', 'Comida deliciosa');
+
+INSERT INTO producto (nombre, precio_actual, stock, rut_proveedor, id_categoria) values ('Papas fritas', 1500, 10, 196498931, 1);
+INSERT INTO producto (nombre, precio_actual, stock, rut_proveedor, id_categoria) values ('Hamburguesa', 1000, 10, 195845921, 1);
+
+INSERT INTO cliente (rut, nombre, direccion, id_comuna, id_ciudad) values (190566293, 'Hector', 'Pje. Catapilco 1731', 1, 1);
+
+INSERT INTO venta (fecha, rut_cliente, descuento, monto_final) values (convert(datetime,'28-01-20 10:30:00 PM',5), 190566293, 0, 1500);
+INSERT INTO venta_detalle (id_venta, id_producto, cantidad_vendida_producto, monto_total_producto) values (10, 1, 1, 1500);
+
+INSERT INTO venta (fecha, rut_cliente, descuento, monto_final) values (convert(datetime,'28-01-20 10:30:00 PM',5), 190566293, 0, 2000);
+INSERT INTO venta_detalle (id_venta, id_producto, cantidad_vendida_producto, monto_total_producto) values (11, 2, 2, 2000);
+
+INSERT INTO venta (fecha, rut_cliente, descuento, monto_final) values (convert(datetime,'28-01-20 10:35:00 PM',5), 190566293, 0, 1500);
+INSERT INTO venta_detalle (id_venta, id_producto, cantidad_vendida_producto, monto_total_producto) values (12, 1, 1, 1500);

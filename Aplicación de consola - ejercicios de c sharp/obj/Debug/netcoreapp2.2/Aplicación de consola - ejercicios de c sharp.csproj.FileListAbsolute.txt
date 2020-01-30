@@ -1,0 +1,11 @@
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\bin\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.deps.json
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\bin\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.runtimeconfig.json
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\bin\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.runtimeconfig.dev.json
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\bin\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.dll
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\obj\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.csprojAssemblyReference.cache
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\obj\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.csproj.CoreCompileInputs.cache
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\obj\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.AssemblyInfoInputs.cache
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\obj\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.AssemblyInfo.cs
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\bin\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.pdb
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\obj\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.dll
+D:\Importante\Pruebas pricing\Aplicación de consola - ejercicios de c sharp\obj\Debug\netcoreapp2.2\Aplicación de consola - ejercicios de c sharp.pdb

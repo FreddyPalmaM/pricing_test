@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Ejercicio_ASP.NET_MVC.Models.proveedor>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ver Proveedores</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+            <div class="navbar-header">
+
+                @Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Agregar Proveedor", "Create", "Proveedor", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+        </div>
+    </nav>
+    <br />
+
+    <div class="offset-5 col-md-6">
+        <h3>Proveedores</h3>
+    </div>
+    <div class="offset-2 col-md-8">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Teléfono
+                    </th>
+                    <th>
+                        Página Web
+                    </th>
+                    <th>
+                        Dirección
+                    </th>
+                    <th>
+                        Ciudad
+                    </th>
+                    <th>
+                        Comuna
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.telefono)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.pagina_web)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.direccion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ciudad.nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.comuna.nombre)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.rut }) |
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.rut })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <footer class="page-footer font-small blue">
+
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">
+                <p> &copy; @DateTime.Now.Year - Todos los Derechos Reservados</p>
+            </div>
+            <!-- Copyright -->
+
+        </footer>
+    </div>
+    
+</body>
+</html>
